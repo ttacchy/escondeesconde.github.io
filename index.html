@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Esconde-Esconde: Objetos × Caçadores</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- MENU -->
+<section id="menu" class="screen active">
+  <div class="card menu-card">
+    <div class="logo">🪑 📦 🪴</div>
+    <h1>Esconde-Esconde</h1>
+    <p class="sub">Objetos × Caçadores</p>
+    <label for="inName">Seu nome</label>
+    <input id="inName" maxlength="14" placeholder="Ex.: Ana" autocomplete="off">
+    <button id="btnCreate" class="btn primary big">Criar sala</button>
+    <div class="or"><span>ou entre numa sala</span></div>
+    <div class="row">
+      <input id="inCode" maxlength="4" placeholder="CÓDIGO" autocomplete="off" class="code-in">
+      <button id="btnJoin" class="btn big">Entrar</button>
+    </div>
+    <details class="rules">
+      <summary>Como jogar</summary>
+      <ul>
+        <li><b>Objetos</b> (equipe 1) viram móveis e coisas do cenário. Nos primeiros 15 s, corram e se misturem. Aperte <kbd>E</kbd> perto de um objeto para copiá-lo.</li>
+        <li><b>Caçadores</b> (equipe 2) esperam de olhos fechados e depois têm <b>5 minutos</b> para achar todo mundo. Clique no objeto suspeito para pegar. Errou? Fica atordoado.</li>
+        <li>Quem for encontrado vira caçador. O sonar (<kbd>Q</kbd>) mostra a direção do objeto mais próximo.</li>
+        <li>Se o tempo acabar com algum objeto livre, os objetos vencem. As equipes trocam a cada rodada.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<!-- LOBBY -->
+<section id="lobby" class="screen">
+  <div class="lobby-wrap">
+    <header class="lobby-head">
+      <div>
+        <span class="muted">Código da sala · quem criou a sala deve manter esta aba aberta</span>
+        <div class="code-big" id="lobCode">----</div>
+      </div>
+      <div class="row">
+        <button id="btnCopy" class="btn">📋 Copiar link</button>
+        <button id="btnLeave" class="btn ghost">Sair</button>
+      </div>
+    </header>
+
+    <div class="teams">
+      <div class="team hide">
+        <h2>🎭 Objetos <small>(se escondem)</small></h2>
+        <ul id="listHide"></ul>
+        <button id="btnJoinHide" class="btn">Entrar nos Objetos</button>
+      </div>
+      <div class="team seek">
+        <h2>🔍 Caçadores <small>(procuram)</small></h2>
+        <ul id="listSeek"></ul>
+        <button id="btnJoinSeek" class="btn">Entrar nos Caçadores</button>
+      </div>
+    </div>
+
+    <h3 class="sect">Mapa <small id="mapHint" class="muted"></small></h3>
+    <div id="mapGrid" class="map-grid"></div>
+
+    <footer class="lobby-foot">
+      <span class="muted">⏱ Esconder: 15 s · Caçada: 5:00 · Equipes trocam a cada rodada</span>
+      <div class="row">
+        <span id="lobHint" class="muted"></span>
+        <button id="btnStart" class="btn primary big">Começar partida</button>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<!-- JOGO -->
+<section id="game" class="screen">
+  <canvas id="cv"></canvas>
+
+  <div id="hudTop">
+    <div id="phaseLabel">Caçada</div>
+    <div id="timer">5:00</div>
+    <div class="counts"><span class="cH">🎭 <b id="cntH">0</b></span><span class="cS">🔍 <b id="cntS">0</b></span></div>
+  </div>
+
+  <div id="feed"></div>
+
+  <div id="hudBottom">
+    <div id="roleBox">
+      <div id="roleTitle"></div>
+      <div id="roleKeys"></div>
+    </div>
+    <div id="sonarBox" class="hidden">
+      <div class="sonar-bar"><div id="sonarFill"></div></div>
+      <div id="sonarTxt"></div>
+    </div>
+  </div>
+
+  <div id="sonarMsg" class="hidden"></div>
+
+  <div id="cover" class="hidden">
+    <div class="cover-in">
+      <div class="cover-emoji">🙈</div>
+      <h2>Olhos fechados!</h2>
+      <p>Os objetos estão se escondendo…</p>
+      <div id="coverT">15</div>
+    </div>
+  </div>
+
+  <div id="end" class="overlay">
+    <div class="card end-card">
+      <h2 id="endTitle"></h2>
+      <p id="endSub"></p>
+      <div id="endList"></div>
+      <button id="btnBack" class="btn primary big">Voltar para a sala</button>
+    </div>
+  </div>
+</section>
+
+<div id="toast"></div>
+
+<script src="peerjs.min.js"></script>
+<script src="maps.js"></script>
+<script src="host.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
